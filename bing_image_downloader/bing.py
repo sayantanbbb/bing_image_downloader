@@ -60,6 +60,7 @@ class Bing:
             print("[!] Issue getting: {}\n[!] Error:: {}".format(link, e))
 
     def run(self):
+        all_links=[]
         while self.download_count < self.limit:
             print('\n\n[!!]Indexing page: {}\n'.format(self.page_counter + 1))
             # Parse the page source and download pics
@@ -75,8 +76,13 @@ class Bing:
             print("\n===============================================\n")
 
             for link in links:
-                if self.download_count < self.limit:
+                if self.download_count < self.limit and link not in all_links:
                     self.download_image(link)
+                    all_links.append(link)
+                elif link not in all_links:
+                    print('Duplicate Images')
+                
+                    
                 else:
                     print("\n\n[%] Done. Downloaded {} images.".format(self.download_count))
                     print("\n===============================================\n")
